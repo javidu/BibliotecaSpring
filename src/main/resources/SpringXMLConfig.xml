@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+          http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <context:annotation-config/>
+    <!--<context:component-scan base-package="src.*" />-->
+    <!--<bean id="libroDAO" class="DAO.JPA.LibroDAOJPAImpl">
+        <property name="entityManagerFactory" ref="entityManagerFactory"></property>
+    </bean>
+
+    <bean id="categoriaDAO" class="DAO.JPA.CategoriaDAOJPAImpl">
+        <property name="entityManagerFactory" ref="entityManagerFactory"></property>
+    </bean>
+    
+    <bean id="servicioLibros" class="Servicios.Implementación.ServicioLibrosImpl">
+        <property name="libroDAO" ref="libroDAO"/>
+        <property name="categoriaDAO" ref="categoriaDAO"/>
+    </bean>-->
+    
+    <bean id="fuenteDeDatos" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://localhost/biblioteca"/>
+        <property name="username" value="root" />
+        <property name="password" value="1234" />
+    </bean>
+    
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        
+        <property name="dataSource" ref="fuenteDeDatos" />
+        <property name="jpaVendorAdapter">
+    <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+        <property name="databasePlatform" value="org.hibernate.dialect.MySQL5Dialect" />
+        <property name="showSql" value="true" />
+    </bean>
+        </property>
+    </bean>
+    
+    <bean id="transactionManager"
+     class="org.springframework.orm.jpa.JpaTransactionManager">
+       <property name="entityManagerFactory" ref="entityManagerFactory" />
+    </bean>
+    
+</beans>
